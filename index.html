@@ -131,9 +131,10 @@
     cartItemsUl.appendChild(totalLi);
   }
   function sendRecepie(){
-	let tg = widow.Telegram.WebApp;
- 	tg.expand();
-	tg.sendData(cart);
+	const tg = window.Telegram.WebApp;
+    tg.expand();
+    const orderText = cart.map(item => `${item.name} - ${item.price}₽`).join('\n');
+    tg.sendData(orderText);
   }
   
 </script>
