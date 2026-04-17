@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<title>Магазин шаурмы</title>
+<script src="https://telegram.org/js/telegram-web-app.js?62"></script>
+<style>
+  
+  #cart {
+    background: white;
+    position: fixed;
+    top: 50px;
+    left: 20px;
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: none;
+    z-index: 1000;
+  }
+  #toggleCart {
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    background-color: #ff6600;
+    color: #fff;
+  }
+  .products {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 80px 20px 20px 20px;
+  }
+
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card img {
+    width: 200px;
+    border-radius: 4px;
+  }
+  .addBtn {
+    padding: 8px 12px;
+    background-color: #ff6600;
+    color: #fff;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+  <button id="toggleCart" onclick="openorhide()">Корзина</button>
+  <div id="cart">
+    <h2>Корзина</h2>
+    <ul  id="cartItems">
+     
+    </ul>
+    <button onclick="clearCart()">Очистить корзину</button>
+	<button onclick="sendRecepie()" id="main_btn">Оформить</button>
+  </div>
+
+  <div class="products">
+   
+    <div class="card" data-name="Шаурма классическая" data-price="150">
+      <img src="https://shaurmaotdushi.ru/wp-content/uploads/2024/04/03.jpg" alt="Шаурма классическая" />
+      <h3>Шаурма классическая</h3>
+      <p>150p.</p>
+      <button class="addBtn" onclick="addToCart(this)">Добавить в корзину</button>
+    </div>
+    <div class="card" data-name="Шаурма с курицей" data-price="180">
+      <img src="https://mf48.ru/wp-content/uploads/2025/01/2.shaurma-s-halapeno-copy.jpg" alt="Шаурма с курицей" />
+      <h3>Шаурма с курицей</h3>
+      <p>140p.</p>
+      <button class="addBtn" onclick="addToCart(this)">Добавить в корзину</button>
+    </div>
+    <div class="card" data-name="Шаурма с говядиной" data-price="200">
+      <img src="https://big-shaurma.ru/wp-content/uploads/2024/02/big-shaurma-s-kuritsey.jpg" alt="Шаурма с говядиной" />
+      <h3>Шаурма с говядиной</h3>
+      <p>180p.</p>
+      <button class="addBtn" onclick="addToCart(this)">Добавить в корзину</button>
+    </div>
+    <div class="card" data-name="Вегетарианская шаурма" data-price="160">
+      <img src="https://i.evrasia.in.ua/data/558_0/products/KUGgSurTvsBxKWihLOegHkMGNSCsH3BWZDQTdzFk.jpg" alt="Вегетарианская шаурма" />
+      <h3>Вегетарианская шаурма (c картошкой фри)</h3>
+      <p>110p.</p>
+      <button class="addBtn" onclick="addToCart(this)">Добавить в корзину</button>
+    </div>
+    
+  </div>
+
+<script>
+  const cart = [];
+  const cartDiv = document.getElementById('cart');
+  const cartItemsUl = document.getElementById('cartItems');
+  const toggleBtn = document.getElementById('toggleCart');
+  let tg = widow.Telegram.WebApp;
+  tg.expand();
+  tg.MainButton.textColor = "#FFFFFF";
+  tg.MainButton.color = "#56GG23"
+  function openorhide() {
+    cartDiv.style.display = cartDiv.style.display === 'block' ? 'none' : 'block';
+  }
+  function clearCart() {
+    cart.length = 0;
+    renderCart();
+  }
+
+  function addToCart(btn) {
+    const card = btn.closest('.card');
+    const name = card.getAttribute('data-name');
+    const price = parseFloat(card.getAttribute('data-price'));
+    cart.push({ name, price });
+    renderCart();
+  }
+  function renderCart() {
+    cartItemsUl.innerHTML = '';  //строка для формирования хтмл кода товаров в корзине
+    let total = 0;
+    cart.forEach((item, index) => {
+      total += item.price;
+      const li = document.createElement('li');
+      li.textContent = `${item.name} - ${item.price}₽`;
+      cartItemsUl.appendChild(li);
+    });
+    const totalLi = document.createElement('li');
+    totalLi.textContent = `ИТОГО: ${total}₽`;
+    cartItemsUl.appendChild(totalLi);
+  }
+  function sendRecepie(){
+	tg.sendData(cart);
+  }
+  
+</script>
+
+</body>
+</html>
