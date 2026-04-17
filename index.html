@@ -100,10 +100,8 @@
   const cartDiv = document.getElementById('cart');
   const cartItemsUl = document.getElementById('cartItems');
   const toggleBtn = document.getElementById('toggleCart');
-  let tg = widow.Telegram.WebApp;
-  tg.expand();
-  tg.MainButton.textColor = "#FFFFFF";
-  tg.MainButton.color = "#56GG23"
+ 
+ 
   function openorhide() {
     cartDiv.style.display = cartDiv.style.display === 'block' ? 'none' : 'block';
   }
@@ -133,6 +131,8 @@
     cartItemsUl.appendChild(totalLi);
   }
   function sendRecepie(){
+	let tg = widow.Telegram.WebApp;
+ 	tg.expand();
 	tg.sendData(cart);
   }
   
