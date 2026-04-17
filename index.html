@@ -3,6 +3,49 @@
 <head>
 <title>Магазин шаурмы</title>
 <script src="https://telegram.org/js/telegram-web-app.js?62"></script>
+<script>
+  const cart = [];
+  const cartDiv = document.getElementById('cart');
+  const cartItemsUl = document.getElementById('cartItems');
+  const toggleBtn = document.getElementById('toggleCart');
+ 
+ 
+  function openorhide() {
+    cartDiv.style.display = cartDiv.style.display === 'block' ? 'none' : 'block';
+  }
+  function clearCart() {
+    cart.length = 0;
+    renderCart();
+  }
+
+  function addToCart(btn) {
+    const card = btn.closest('.card');
+    const name = card.getAttribute('data-name');
+    const price = parseFloat(card.getAttribute('data-price'));
+    cart.push({ name, price });
+    renderCart();
+  }
+  function renderCart() {
+    cartItemsUl.innerHTML = '';  //строка для формирования хтмл кода товаров в корзине
+    let total = 0;
+    cart.forEach((item, index) => {
+      total += item.price;
+      const li = document.createElement('li');
+      li.textContent = `${item.name} - ${item.price}₽`;
+      cartItemsUl.appendChild(li);
+    });
+    const totalLi = document.createElement('li');
+    totalLi.textContent = `ИТОГО: ${total}₽`;
+    cartItemsUl.appendChild(totalLi);
+  }
+  function sendRecepie(){
+	const tg = window.Telegram.WebApp;
+    tg.expand();
+    const orderText = cart.map(item => `${item.name} - ${item.price}₽`).join('\n');
+    tg.sendData(orderText);
+  }
+  
+</script>
 <style>
   
   #cart {
@@ -95,49 +138,7 @@
     
   </div>
 
-<script>
-  const cart = [];
-  const cartDiv = document.getElementById('cart');
-  const cartItemsUl = document.getElementById('cartItems');
-  const toggleBtn = document.getElementById('toggleCart');
- 
- 
-  function openorhide() {
-    cartDiv.style.display = cartDiv.style.display === 'block' ? 'none' : 'block';
-  }
-  function clearCart() {
-    cart.length = 0;
-    renderCart();
-  }
 
-  function addToCart(btn) {
-    const card = btn.closest('.card');
-    const name = card.getAttribute('data-name');
-    const price = parseFloat(card.getAttribute('data-price'));
-    cart.push({ name, price });
-    renderCart();
-  }
-  function renderCart() {
-    cartItemsUl.innerHTML = '';  //строка для формирования хтмл кода товаров в корзине
-    let total = 0;
-    cart.forEach((item, index) => {
-      total += item.price;
-      const li = document.createElement('li');
-      li.textContent = `${item.name} - ${item.price}₽`;
-      cartItemsUl.appendChild(li);
-    });
-    const totalLi = document.createElement('li');
-    totalLi.textContent = `ИТОГО: ${total}₽`;
-    cartItemsUl.appendChild(totalLi);
-  }
-  function sendRecepie(){
-	const tg = window.Telegram.WebApp;
-    tg.expand();
-    const orderText = cart.map(item => `${item.name} - ${item.price}₽`).join('\n');
-    tg.sendData(orderText);
-  }
-  
-</script>
 
 </body>
 </html>
