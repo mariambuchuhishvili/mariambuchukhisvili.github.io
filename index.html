@@ -106,6 +106,7 @@
   }
   function clearCart() {
     cart.length = 0;
+	total = 0;
     renderCart();
   }
 
@@ -133,7 +134,7 @@
 	const tg = window.Telegram.WebApp;
     tg.expand();
     let orderText = cart.map(item => `${item.name} - ${item.price}₽`).join('\n');
-	orderText += `ИТОГО: ${total}₽`;
+	orderText += `\nИТОГО: ${total}₽`;
     tg.sendData(orderText);
 	/*tg.sendData(`ИТОГО: ${total}₽`)*/
 	clearCart();
