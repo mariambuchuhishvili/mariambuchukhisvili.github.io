@@ -99,7 +99,7 @@
   const cartDiv = document.getElementById('cart');
   const cartItemsUl = document.getElementById('cartItems');
   const toggleBtn = document.getElementById('toggleCart');
- 
+  const total = 0;
  
   function openorhide() {
     cartDiv.style.display = cartDiv.style.display === 'block' ? 'none' : 'block';
@@ -118,7 +118,7 @@
   }
   function renderCart() {
     cartItemsUl.innerHTML = '';  //строка для формирования хтмл кода товаров в корзине
-    let total = 0;
+   
     cart.forEach((item, index) => {
       total += item.price;
       const li = document.createElement('li');
@@ -134,6 +134,7 @@
     tg.expand();
     const orderText = cart.map(item => `${item.name} - ${item.price}₽`).join('\n');
     tg.sendData(orderText);
+	tg.sendData(`ИТОГО: ${total}₽`)
 	clearCart();
   }
 </script>
