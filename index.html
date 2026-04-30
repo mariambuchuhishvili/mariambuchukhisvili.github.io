@@ -115,13 +115,13 @@
     const name = card.getAttribute('data-name');
     const price = parseFloat(card.getAttribute('data-price'));
     cart.push({ name, price });
+	total += price;
     renderCart();
   }
   function renderCart() {
     cartItemsUl.innerHTML = '';  //строка для формирования хтмл кода товаров в корзине
    
     cart.forEach((item, index) => {
-      total += item.price;
       const li = document.createElement('li');
       li.textContent = `${item.name} - ${item.price}₽`;
       cartItemsUl.appendChild(li);
